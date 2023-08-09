@@ -57,7 +57,7 @@
                             <ListView x:Name="receiveListView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <ListView.View>
                                     <GridView>
-                                        <GridViewColumn Header="Received Messages" Width="Auto" DisplayMemberBinding="{Binding}"/>
+                                        <GridViewColumn Header="Received Messages" Width="300" DisplayMemberBinding="{Binding}"/>
                                     </GridView>
                                 </ListView.View>
                             </ListView>
