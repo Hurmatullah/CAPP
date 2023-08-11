@@ -26,8 +26,6 @@ namespace ChatApp3
     /// </summary>
     public partial class MainWindow : Window, IDisposable
     {
-
-        //private int ServerPort;
         private ConcurrentQueue<IPAddress> IPAddressesQueue;
 
         private ObservableCollection<string> messages;
@@ -40,10 +38,9 @@ namespace ChatApp3
 
         private const int Port = 12000;
 
-        private Socket listenerSocket;
-
         private Thread listenerThreads;
 
+        private Socket listenerSocket;
 
         public MainWindow()
         {
@@ -75,13 +72,14 @@ namespace ChatApp3
                     var clientSocket = listenerSocket.Accept();
 
                     byte[] buffer = new byte[BufferSize];
+
                     int bytesRead;
 
                     while ((bytesRead = clientSocket.Receive(buffer)) > 0)
                     {
                         string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
 
-                        var validatedIpEndPoint = ValidateIpAndPort(buffer);
+                        var validatedIpEndPoint = Validate_Ip(buffer);
 
                         if(validatedIpEndPoint != null && !IPAddressesQueue.Contains(validatedIpEndPoint)) 
                         {
@@ -90,7 +88,7 @@ namespace ChatApp3
 
                         if(message.StartsWith("Disconnect:"))
                         {
-                            var validateDisconnectionIP = ValidateIpDisconnection(buffer);
+                            var validateDisconnectionIP = Validate_Disconnection_Of_Ip(buffer);
                             IPAddressesQueue.TryDequeue(out validateDisconnectionIP);
                         }
 
@@ -105,20 +103,19 @@ namespace ChatApp3
                 MessageBox.Show($"SocketException: {ex.Message}");
             }
         }
-        
+
         private void Connect(IPAddress receivedIP)
         {
-
             foreach(var ipConnector in IPAddressesQueue)
             {
                 var endPointMessage = Encoding.UTF8.GetBytes($"Join:{ipConnector};");
-                SendBroadCast(endPointMessage, receivedIP);
+                Send_BroadCast(endPointMessage, receivedIP);
             }
 
             if (listenerSocket.LocalEndPoint is IPEndPoint myiep)
             {
                 var myEndPointBytes = Encoding.UTF8.GetBytes($"Join:{myiep.Address};");
-                SendBroadCast(myEndPointBytes, receivedIP);
+                Send_BroadCast(myEndPointBytes, receivedIP);
             }
 
             if (!IPAddressesQueue.Contains(receivedIP))
@@ -132,13 +129,12 @@ namespace ChatApp3
         {
             try
             {
-
                 var ipAdd = IPTextBox.Text;
                 var verifyIpAddress = IPAddress.TryParse(ipAdd, out var ipAddress);
 
                 if(!verifyIpAddress)
                 {
-                    MessageBox.Show("Incorrect ip");
+                    MessageBox.Show("Your ip is not correct, please check it once again");
                 }
 
                 var ipEndPoint = new IPEndPoint(ipAddress!, Port);
@@ -152,7 +148,7 @@ namespace ChatApp3
                 {
                     Dispatcher.Invoke(() =>
                     {
-                        SendBroadCast(Encoding.UTF8.GetBytes($"Join:{IP};"), ipEndPoint.Address);
+                        Send_BroadCast(Encoding.UTF8.GetBytes($"Join:{IP};"), ipEndPoint.Address);
                     });
                 }
                 catch (SocketException ex)
@@ -166,13 +162,13 @@ namespace ChatApp3
             }
         }
 
-        private void SendMessage(byte[] buffer)
+        private void Send_Message(byte[] buffer)
         {
             try
             {
                 foreach (var ipAddresses in IPAddressesQueue)
                 {
-                    SendBroadCast(buffer, ipAddresses);
+                    Send_BroadCast(buffer, ipAddresses);
                 }
             }
             catch (SocketException ex)
@@ -181,7 +177,7 @@ namespace ChatApp3
             }
         }
 
-        private void SendBroadCast(byte[] buffer, IPAddress ipAdd)
+        private void Send_BroadCast(byte[] buffer, IPAddress ipAdd)
         {
             var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             socket.Connect(ipAdd, Port);
@@ -197,12 +193,13 @@ namespace ChatApp3
         private void Send_Click(object sender, RoutedEventArgs e)
         {
             string message = MessageTextBox.Text;
-            SendMessage(Encoding.UTF8.GetBytes(message));
+            Send_Message(Encoding.UTF8.GetBytes(message));
+            MessageTextBox.Text = "";
         }
 
         private void Disconnect_Click(object sender, RoutedEventArgs e)
         {
-            SendMessage(Encoding.UTF8.GetBytes($"Disconnect:{IP};"));
+            Send_Message(Encoding.UTF8.GetBytes($"Disconnect:{IP};"));
             IsListening = false;
             listenerSocket.Close();
         }
@@ -212,7 +209,7 @@ namespace ChatApp3
             listenerSocket.Dispose();
         }
 
-        private static IPAddress? ValidateIpAndPort(byte[] buffer)
+        private static IPAddress? Validate_Ip(byte[] buffer)
         {
             string receivedIPAdd = Encoding.UTF8.GetString(buffer);
 
@@ -247,7 +244,7 @@ namespace ChatApp3
             return null;
         }
 
-        public static IPAddress? ValidateIpDisconnection(byte[] buffer)
+        public static IPAddress? Validate_Disconnection_Of_Ip(byte[] buffer)
         {
             string receivedMessage = Encoding.UTF8.GetString(buffer);
 
@@ -270,6 +267,5 @@ namespace ChatApp3
 
             return null;
         }
-
     }
 }
