@@ -24,10 +24,6 @@
                                             <Label Content="IP" HorizontalAlignment="Left" Margin="25,30,0,0" VerticalAlignment="Top" Width="55"/>
                                             <TextBox x:Name="IPTextBox" HorizontalAlignment="Center" Margin="0,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="211" Height="26" BorderBrush="DeepSkyBlue"/>
                                         </Grid>
-                                        <!--<Grid>
-                                            <Label Content="Port" HorizontalAlignment="Left" Margin="24,69,0,0" VerticalAlignment="Top" Width="55"/>
-                                            <TextBox x:Name="PortTextBox" HorizontalAlignment="Center" Margin="0,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="210" Height="26" BorderBrush="DeepSkyBlue"/>
-                                        </Grid>-->
                                         <Button Content="Connect" HorizontalAlignment="Left" Margin="105,90,0,0" VerticalAlignment="Top" Height="36" Width="63" Click="Connect_Click" BorderBrush="DeepSkyBlue"/>
                                     </Grid>
                                 </StackPanel>
@@ -45,7 +41,6 @@
                                         <TextBox x:Name="MessageTextBox" TextWrapping="Wrap" Width="410" Height="125" BorderBrush="DeepSkyBlue"/>
                                     </StackPanel>
                                     <Button Content="Send" HorizontalAlignment="Left" Margin="22,139,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.197,-0.024" Height="33" Width="64" Click="Send_Click" BorderBrush="DeepSkyBlue"/>
-                                    <Button Content="Disconnect" HorizontalAlignment="Left" Margin="100,139,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.197,-0.024" Height="33" Width="81" Click="Disconnect_Click" BorderBrush="DeepSkyBlue"/>
                                 </Grid>
                             </Grid>
                         </Border>

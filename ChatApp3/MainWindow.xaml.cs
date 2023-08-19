@@ -144,13 +144,6 @@ namespace ChatApp3
             MessageTextBox.Text = "";
         }
 
-        private void Disconnect_Click(object sender, RoutedEventArgs e)
-        {
-            user.Send_Message(Encoding.UTF8.GetBytes($"Disconnect:{user.IP};"));
-            IsListening = false;
-            user.listenerSocket.Close();
-        }
-
         private void Close_Click(object sender, CancelEventArgs e)
         {
             user.Send_Message(Encoding.UTF8.GetBytes($"Disconnect:{user.IP};"));
