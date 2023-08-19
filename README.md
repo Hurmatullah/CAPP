@@ -1,1 +1,1 @@
-Chat Application in C#
+Peer 2 Peer chat Application in C#
