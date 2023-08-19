@@ -19,6 +19,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ChatBackend;
+using System.ComponentModel;
 
 namespace ChatApp3
 {
@@ -89,7 +90,7 @@ namespace ChatApp3
             }
             catch (SocketException ex)
             {
-                MessageBox.Show($"SocketException: {ex.Message}");
+                MessageBox.Show("Socket disconnected successfully");
             }
         }
 
@@ -148,6 +149,14 @@ namespace ChatApp3
             user.Send_Message(Encoding.UTF8.GetBytes($"Disconnect:{user.IP};"));
             IsListening = false;
             user.listenerSocket.Close();
+        }
+
+        private void Close_Click(object sender, CancelEventArgs e)
+        {
+            user.Send_Message(Encoding.UTF8.GetBytes($"Disconnect:{user.IP};"));
+            IsListening = false;
+            user.Close();
+            user.Dispose();
         }
     }
 }

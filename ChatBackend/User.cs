@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ChatBackend
 {
-    public class User
+    public class User : IDisposable
     {
         public ConcurrentQueue<IPAddress> IPAddressesQueue;
 
@@ -69,6 +69,16 @@ namespace ChatBackend
             socket.Connect(ipAdd, Port);
             socket.Send(buffer);
             socket.Close();
+        }
+
+        public void Close()
+        {
+            listenerSocket.Close();
+        }
+
+        public void Dispose()
+        {
+            listenerSocket.Dispose();
         }
 
         public IPAddress? Validate_Ip(byte[] buffer)
