@@ -13,11 +13,11 @@ namespace ChatBackend
     {
         public ConcurrentQueue<IPAddress> IPAddressesQueue;
 
-        public string IP = "192.168.70.135";
+        public string IP { get; set; } = "192.168.70.135";
 
-        public int BufferSize = 1024;
+        public int BufferSize { get; set; } = 1024;
 
-        public int Port = 12000;
+        public int Port { get; set; } = 12000;
 
         public Socket listenerSocket;
 
@@ -30,8 +30,8 @@ namespace ChatBackend
         {
             IPAddress ipAddress = IPAddress.Parse(IP);
             listenerSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            var ListenerEndPointVariable = new IPEndPoint(ipAddress, Port);
-            listenerSocket.Bind(ListenerEndPointVariable);
+            var listenerEndPointVariable = new IPEndPoint(ipAddress, Port);
+            listenerSocket.Bind(listenerEndPointVariable);
             listenerSocket.Listen();
         }
 
@@ -40,13 +40,13 @@ namespace ChatBackend
             foreach (var ipConnector in IPAddressesQueue)
             {
                 var endPointMessage = Encoding.UTF8.GetBytes($"Join:{ipConnector};");
-                Send_BroadCast(endPointMessage, receivedIP);
+                SendBroadCast(endPointMessage, receivedIP);
             }
 
             if (listenerSocket.LocalEndPoint is IPEndPoint myiep)
             {
                 var myEndPointBytes = Encoding.UTF8.GetBytes($"Join:{myiep.Address};");
-                Send_BroadCast(myEndPointBytes, receivedIP);
+                SendBroadCast(myEndPointBytes, receivedIP);
             }
 
             if (!IPAddressesQueue.Contains(receivedIP))
@@ -55,15 +55,15 @@ namespace ChatBackend
             }
         }
 
-        public void Send_Message(byte[] buffer)
+        public void SendMessage(byte[] buffer)
         {
             foreach (var ipAddresses in IPAddressesQueue)
             {
-                Send_BroadCast(buffer, ipAddresses);
+                SendBroadCast(buffer, ipAddresses);
             }
         }
 
-        public void Send_BroadCast(byte[] buffer, IPAddress ipAdd)
+        public void SendBroadCast(byte[] buffer, IPAddress ipAdd)
         {
             var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             socket.Connect(ipAdd, Port);
@@ -81,7 +81,7 @@ namespace ChatBackend
             listenerSocket.Dispose();
         }
 
-        public IPAddress? Validate_Ip(byte[] buffer)
+        public IPAddress? ValidateIp(byte[] buffer)
         {
             string receivedIPAdd = Encoding.UTF8.GetString(buffer);
 
@@ -116,7 +116,7 @@ namespace ChatBackend
             return null;
         }
 
-        public IPAddress? Validate_Disconnection_Of_Ip(byte[] buffer)
+        public IPAddress? ValidateDisconnectionOfIp(byte[] buffer)
         {
             string receivedMessage = Encoding.UTF8.GetString(buffer);
 

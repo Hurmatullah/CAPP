@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ChatApp3"
-        mc:Ignorable="d" Closing="Close_Click"
-        Title="MainWindow" Height="545" Width="818" Loaded="Listener_Loaded">
+        mc:Ignorable="d" Closing="CloseClick"
+        Title="MainWindow" Height="545" Width="818" Loaded="ListenerLoaded">
     <Grid>
         <StackPanel Margin="-10,0,0,0" Background="#FFFFFF" Width="NaN">
             <Grid Height="466" Background="#FFFFFF">
@@ -24,7 +24,7 @@
                                             <Label Content="IP" HorizontalAlignment="Left" Margin="25,30,0,0" VerticalAlignment="Top" Width="55"/>
                                             <TextBox x:Name="IPTextBox" HorizontalAlignment="Center" Margin="0,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="211" Height="26" BorderBrush="DeepSkyBlue"/>
                                         </Grid>
-                                        <Button Content="Connect" HorizontalAlignment="Left" Margin="105,90,0,0" VerticalAlignment="Top" Height="36" Width="63" Click="Connect_Click" BorderBrush="DeepSkyBlue"/>
+                                        <Button Content="Connect" HorizontalAlignment="Left" Margin="105,90,0,0" VerticalAlignment="Top" Height="36" Width="63" Click="ConnectClick" BorderBrush="DeepSkyBlue"/>
                                     </Grid>
                                 </StackPanel>
                             </Grid>
@@ -40,7 +40,7 @@
                                     <StackPanel>
                                         <TextBox x:Name="MessageTextBox" TextWrapping="Wrap" Width="410" Height="125" BorderBrush="DeepSkyBlue"/>
                                     </StackPanel>
-                                    <Button Content="Send" HorizontalAlignment="Left" Margin="22,139,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.197,-0.024" Height="33" Width="64" Click="Send_Click" BorderBrush="DeepSkyBlue"/>
+                                    <Button Content="Send" HorizontalAlignment="Left" Margin="22,139,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.197,-0.024" Height="33" Width="64" Click="SendClick" BorderBrush="DeepSkyBlue"/>
                                 </Grid>
                             </Grid>
                         </Border>

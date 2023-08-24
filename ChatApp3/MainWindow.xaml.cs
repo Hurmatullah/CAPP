@@ -44,7 +44,7 @@ namespace ChatApp3
             receiveListView.ItemsSource = messages;
         }
 
-        private void Listener_Loaded(object sender, RoutedEventArgs e)
+        private void ListenerLoaded(object sender, RoutedEventArgs e)
         {
             listenerThreads = new Thread(Listen);
             IsListening = true;
@@ -69,7 +69,7 @@ namespace ChatApp3
                     {
                         string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
 
-                        var validatedIpEndPoint = user.Validate_Ip(buffer);
+                        var validatedIpEndPoint = user.ValidateIp(buffer);
 
                         if (validatedIpEndPoint != null && !user.IPAddressesQueue.Contains(validatedIpEndPoint))
                         {
@@ -78,7 +78,7 @@ namespace ChatApp3
 
                         if (message.StartsWith("Disconnect:"))
                         {
-                            var validateDisconnectionIP = user.Validate_Disconnection_Of_Ip(buffer);
+                            var validateDisconnectionIP = user.ValidateDisconnectionOfIp(buffer);
                             user.IPAddressesQueue.TryDequeue(out validateDisconnectionIP);
                         }
 
@@ -90,7 +90,12 @@ namespace ChatApp3
             }
             catch (SocketException ex)
             {
-                MessageBox.Show("Socket disconnected successfully");
+                MessageBox.Show($"SocketException: {ex.Message}");
+                //MessageBox.Show("Socket disconnected successfully");
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"Error: {e.Message}");
             }
         }
 
@@ -118,35 +123,35 @@ namespace ChatApp3
                 {
                     Dispatcher.Invoke(() =>
                     {
-                        user.Send_BroadCast(Encoding.UTF8.GetBytes($"Join:{user.IP};"), ipEndPoint.Address);
+                        user.SendBroadCast(Encoding.UTF8.GetBytes($"Join:{user.IP};"), ipEndPoint.Address);
                     });
                 }
-                catch (SocketException ex)
+                catch (Exception ex)
                 {
-                    MessageBox.Show($"SocketException: {ex.Message}");
+                    MessageBox.Show($"Exception: {ex.Message}");
                 }
             }
-            catch (SocketException ex)
+            catch (Exception ex)
             {
-                MessageBox.Show($"SocketException: {ex.Message}");
+                MessageBox.Show($"Exception: {ex.Message}");
             }
         }
 
-        private void Connect_Click(object sender, RoutedEventArgs e)
+        private void ConnectClick(object sender, RoutedEventArgs e)
         {
             Connect();
         }
 
-        private void Send_Click(object sender, RoutedEventArgs e)
+        private void SendClick(object sender, RoutedEventArgs e)
         {
             string message = MessageTextBox.Text;
-            user.Send_Message(Encoding.UTF8.GetBytes(message));
+            user.SendMessage(Encoding.UTF8.GetBytes(message));
             MessageTextBox.Text = "";
         }
 
-        private void Close_Click(object sender, CancelEventArgs e)
+        private void CloseClick(object sender, CancelEventArgs e)
         {
-            user.Send_Message(Encoding.UTF8.GetBytes($"Disconnect:{user.IP};"));
+            user.SendMessage(Encoding.UTF8.GetBytes($"Disconnect:{user.IP};"));
             IsListening = false;
             user.Close();
             user.Dispose();
