@@ -11,7 +11,7 @@ namespace ChatBackend
 {
     public class User : IDisposable
     {
-        public ConcurrentQueue<IPAddress> IPAddressesQueue;
+        public ConcurrentQueue<IPAddress> ipAddressesQueue;
 
         public string IP { get; set; } = "192.168.70.135";
 
@@ -23,7 +23,7 @@ namespace ChatBackend
 
         public User()
         {
-            IPAddressesQueue = new();
+            ipAddressesQueue = new();
         }
 
         public void Listen()
@@ -37,7 +37,7 @@ namespace ChatBackend
 
         public void Connect(IPAddress receivedIP)
         {
-            foreach (var ipConnector in IPAddressesQueue)
+            foreach (var ipConnector in ipAddressesQueue)
             {
                 var endPointMessage = Encoding.UTF8.GetBytes($"Join:{ipConnector};");
                 SendBroadCast(endPointMessage, receivedIP);
@@ -49,15 +49,15 @@ namespace ChatBackend
                 SendBroadCast(myEndPointBytes, receivedIP);
             }
 
-            if (!IPAddressesQueue.Contains(receivedIP))
+            if (!ipAddressesQueue.Contains(receivedIP))
             {
-                IPAddressesQueue.Enqueue(receivedIP);
+                ipAddressesQueue.Enqueue(receivedIP);
             }
         }
 
         public void SendMessage(byte[] buffer)
         {
-            foreach (var ipAddresses in IPAddressesQueue)
+            foreach (var ipAddresses in ipAddressesQueue)
             {
                 SendBroadCast(buffer, ipAddresses);
             }
@@ -88,7 +88,6 @@ namespace ChatBackend
             if (receivedIPAdd.StartsWith("Join:"))
             {
                 var splitIPStrings = receivedIPAdd.Split(':', ';');
-
                 string ip = "";
 
                 foreach (var str in splitIPStrings)
@@ -123,7 +122,6 @@ namespace ChatBackend
             if (receivedMessage.StartsWith("Disconnect:"))
             {
                 var splitIPStrings = receivedMessage.Split(':', ';');
-
                 string ip = "";
 
                 foreach (var str in splitIPStrings)

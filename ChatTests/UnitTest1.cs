@@ -16,53 +16,43 @@ namespace ChatTests
         }
 
         [Test]
-        public void Test_Listen()
+        public void TestListen()
         {
             user.Listen();
-
             Assert.True(true);
         }
 
         [Test]
-        public void Test_User_Connect()
+        public void TestUserConnect()
         {
             var receivedIPAdd = IPAddress.Parse(IPAdd);
-
-            user.IPAddressesQueue.Enqueue(receivedIPAdd);
-
+            user.ipAddressesQueue.Enqueue(receivedIPAdd);
             user.Connect(receivedIPAdd);
-
             Assert.True(true);
         }
 
         [Test]
-        public void Test_Send_BroadCast()
+        public void TestSendBroadCast()
         {
             var endPointMessage = Encoding.UTF8.GetBytes($"Join:{IPAdd};");
-
-            user.Send_BroadCast(endPointMessage, IPAddress.Parse(IPAdd));
-
+            user.SendBroadCast(endPointMessage, IPAddress.Parse(IPAdd));
             Assert.IsTrue(true);
         }
 
         [Test]
-        public void Test_Send_Message()
+        public void TestSendMessage()
         {
             var message = "Hey there!";
-
-            user.IPAddressesQueue.Enqueue(IPAddress.Parse(IPAdd));
-
-            user.Send_Message(Encoding.UTF8.GetBytes(message));
-
+            user.ipAddressesQueue.Enqueue(IPAddress.Parse(IPAdd));
+            user.SendMessage(Encoding.UTF8.GetBytes(message));
             Assert.True(true);
         }
 
         [Test]
-        public void Test_Validate_IP()
+        public void TestValidateIP()
         {
             var receivedMessage = Encoding.UTF8.GetBytes($"Join:{IPAdd};");
-
-            var validatedIP = user.Validate_Ip(receivedMessage);
+            var validatedIP = user.ValidateIp(receivedMessage);
 
             if (validatedIP != null)
             {
@@ -71,11 +61,10 @@ namespace ChatTests
         }
 
         [Test]
-        public void Test_Disconnection_IP()
+        public void TestDisconnectionIP()
         {
             var receivedDisconnMessage = Encoding.UTF8.GetBytes($"Disconnect:{user.IP};");
-
-            var validatedDisconIP = user.Validate_Disconnection_Of_Ip(receivedDisconnMessage);
+            var validatedDisconIP = user.ValidateDisconnectionOfIp(receivedDisconnMessage);
 
             if (validatedDisconIP != null)
             {

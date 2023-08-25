@@ -30,11 +30,11 @@ namespace ChatApp3
     {
         private ObservableCollection<string> messages;
 
-        private User user;
-
         private bool IsListening = true;
 
         private Thread listenerThreads;
+
+        private User user;
 
         public MainWindow()
         {
@@ -44,7 +44,7 @@ namespace ChatApp3
             receiveListView.ItemsSource = messages;
         }
 
-        private void ListenerLoaded(object sender, RoutedEventArgs e)
+        private void LoadListener(object sender, RoutedEventArgs e)
         {
             listenerThreads = new Thread(Listen);
             IsListening = true;
@@ -60,18 +60,15 @@ namespace ChatApp3
                 while (IsListening)
                 {
                     var clientSocket = user.listenerSocket.Accept();
-
                     byte[] buffer = new byte[user.BufferSize];
-
                     int bytesRead;
 
                     while ((bytesRead = clientSocket.Receive(buffer)) > 0)
                     {
                         string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-
                         var validatedIpEndPoint = user.ValidateIp(buffer);
 
-                        if (validatedIpEndPoint != null && !user.IPAddressesQueue.Contains(validatedIpEndPoint))
+                        if (validatedIpEndPoint != null && !user.ipAddressesQueue.Contains(validatedIpEndPoint))
                         {
                             user.Connect(validatedIpEndPoint);
                         }
@@ -79,7 +76,7 @@ namespace ChatApp3
                         if (message.StartsWith("Disconnect:"))
                         {
                             var validateDisconnectionIP = user.ValidateDisconnectionOfIp(buffer);
-                            user.IPAddressesQueue.TryDequeue(out validateDisconnectionIP);
+                            user.ipAddressesQueue.TryDequeue(out validateDisconnectionIP);
                         }
 
                         Dispatcher.Invoke(() => messages.Add(message));
@@ -100,6 +97,7 @@ namespace ChatApp3
         }
 
         // Connect through UI
+
         private void Connect()
         {
             try
@@ -114,9 +112,9 @@ namespace ChatApp3
 
                 var ipEndPoint = new IPEndPoint(ipAddress!, user.Port);
 
-                if (!user.IPAddressesQueue.Contains(ipAddress))
+                if (!user.ipAddressesQueue.Contains(ipAddress))
                 {
-                    user.IPAddressesQueue.Enqueue(ipAddress!);
+                    user.ipAddressesQueue.Enqueue(ipAddress!);
                 }
 
                 try

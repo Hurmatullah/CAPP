@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ChatApp3"
         mc:Ignorable="d" Closing="CloseClick"
-        Title="MainWindow" Height="545" Width="818" Loaded="ListenerLoaded">
+        Title="MainWindow" Height="545" Width="818" Loaded="LoadListener">
     <Grid>
         <StackPanel Margin="-10,0,0,0" Background="#FFFFFF" Width="NaN">
             <Grid Height="466" Background="#FFFFFF">
