@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace ChatBackend
 {
@@ -98,18 +99,12 @@ namespace ChatBackend
                     }
                 }
 
-                var ipValidations = ip.Split(".");
+                var ipValidations = IPAddress.TryParse(ip, out var ipAdd);
 
-                for (int i = 0; i < ipValidations.Length; i++)
+                if(ipValidations)
                 {
-                    int ipChecks = int.Parse(ipValidations[i]);
-                    if (ipChecks < 0 || ipChecks > 255)
-                    {
-                        return null;
-                    }
+                    return ipAdd;
                 }
-
-                return IPAddress.Parse(ip);
             }
 
             return null;

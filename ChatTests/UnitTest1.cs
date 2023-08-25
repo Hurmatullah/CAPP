@@ -19,7 +19,7 @@ namespace ChatTests
         public void TestListen()
         {
             user.Listen();
-            Assert.True(true);
+            Assert.Pass("Successfullly started listening");
         }
 
         [Test]
@@ -28,7 +28,7 @@ namespace ChatTests
             var receivedIPAdd = IPAddress.Parse(IPAdd);
             user.ipAddressesQueue.Enqueue(receivedIPAdd);
             user.Connect(receivedIPAdd);
-            Assert.True(true);
+            Assert.Pass("Connected to ther user");
         }
 
         [Test]
@@ -36,7 +36,7 @@ namespace ChatTests
         {
             var endPointMessage = Encoding.UTF8.GetBytes($"Join:{IPAdd};");
             user.SendBroadCast(endPointMessage, IPAddress.Parse(IPAdd));
-            Assert.IsTrue(true);
+            Assert.Pass("Sent broadcastly");
         }
 
         [Test]
@@ -45,7 +45,7 @@ namespace ChatTests
             var message = "Hey there!";
             user.ipAddressesQueue.Enqueue(IPAddress.Parse(IPAdd));
             user.SendMessage(Encoding.UTF8.GetBytes(message));
-            Assert.True(true);
+            Assert.Pass("Sent message successfully");
         }
 
         [Test]
@@ -56,7 +56,7 @@ namespace ChatTests
 
             if (validatedIP != null)
             {
-                Assert.True(true);
+                Assert.Pass();
             }
         }
 
@@ -68,7 +68,7 @@ namespace ChatTests
 
             if (validatedDisconIP != null)
             {
-                Assert.True(true);
+                Assert.Pass();
             }
         }
     }

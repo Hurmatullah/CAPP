@@ -108,6 +108,7 @@ namespace ChatApp3
                 if (!verifyIpAddress)
                 {
                     MessageBox.Show("Your ip is not correct, please check it once again");
+                    return;
                 }
 
                 var ipEndPoint = new IPEndPoint(ipAddress!, user.Port);
