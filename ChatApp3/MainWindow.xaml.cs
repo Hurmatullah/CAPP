@@ -87,12 +87,14 @@ namespace ChatApp3
             }
             catch (SocketException ex)
             {
-                MessageBox.Show($"SocketException: {ex.Message}");
-                //MessageBox.Show("Socket disconnected successfully");
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show($"Error: {e.Message}");
+                if(!IsListening)
+                {
+                    MessageBox.Show("Socket disconnected successfully");
+                }
+                else
+                {
+                    MessageBox.Show($"SocketException: {ex.Message}");
+                }
             }
         }
 
