@@ -100,7 +100,7 @@ namespace ChatBackend
                 }
                 var ipIsValid = IPAddress.TryParse(ip, out var ipAdd);
 
-                if(ipIsValid)
+                if (ipIsValid)
                 {
                     return ipAdd;
                 }
