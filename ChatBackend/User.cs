@@ -98,10 +98,9 @@ namespace ChatBackend
                         ip = str;
                     }
                 }
+                var ipIsValid = IPAddress.TryParse(ip, out var ipAdd);
 
-                var ipValidations = IPAddress.TryParse(ip, out var ipAdd);
-
-                if(ipValidations)
+                if(ipIsValid)
                 {
                     return ipAdd;
                 }
