@@ -75,7 +75,7 @@ namespace ChatApp3
 
                         if (message.StartsWith("Disconnect:"))
                         {
-                            var validateDisconnectionIP = user.ValidateDisconnectionOfIp(buffer);
+                            var validateDisconnectionIP = user.ValidateIpDisconnection(buffer);
                             user.ipAddressesQueue.TryDequeue(out validateDisconnectionIP);
                         }
 

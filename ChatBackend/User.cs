@@ -88,6 +88,7 @@ namespace ChatBackend
                         ip = str;
                     }
                 }
+
                 var ipIsValid = IPAddress.TryParse(ip, out var ipAdd);
 
                 if (ipIsValid)
@@ -99,7 +100,7 @@ namespace ChatBackend
             return null;
         }
 
-        public IPAddress? ValidateDisconnectionOfIp(byte[] buffer)
+        public IPAddress? ValidateIpDisconnection(byte[] buffer)
         {
             string receivedMessage = Encoding.UTF8.GetString(buffer);
 
