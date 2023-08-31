@@ -72,16 +72,6 @@ namespace ChatBackend
             socket.Close();
         }
 
-        public void Close()
-        {
-            listenerSocket.Close();
-        }
-
-        public void Dispose()
-        {
-            listenerSocket.Dispose();
-        }
-
         public IPAddress? ValidateIp(byte[] buffer)
         {
             string receivedIPAdd = Encoding.UTF8.GetString(buffer);
@@ -130,6 +120,16 @@ namespace ChatBackend
             }
 
             return null;
+        }
+
+        public void Close()
+        {
+            listenerSocket.Close();
+        }
+
+        public void Dispose()
+        {
+            listenerSocket.Dispose();
         }
     }
 }

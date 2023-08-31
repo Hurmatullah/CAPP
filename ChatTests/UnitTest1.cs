@@ -55,7 +55,7 @@ namespace ChatTests
         public void TestDisconnectionIP()
         {
             var receivedDisconnMessage = Encoding.UTF8.GetBytes($"Disconnect:{user.IP};");
-            var validatedDisconIP = user.ValidateDisconnectionOfIp(receivedDisconnMessage);
+            user.ValidateDisconnectionOfIp(receivedDisconnMessage);
         }
     }
 }
